@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/Config.php';
+require_once __DIR__ . '/Database/Connection.php';
+require_once __DIR__ . '/Database/MigrationManager.php';
+require_once __DIR__ . '/Database/SeederManager.php';
+
+$command = $argv[1] ?? null;
+$subcommand = $argv[2] ?? null;
+
+if ($command === 'migrate') {
+    DatabaseConnection::init();
+    $manager = new MigrationManager();
+    echo $manager->migrate() . "\n";
+} elseif ($command === 'migrate:rollback') {
+    DatabaseConnection::init();
+    $manager = new MigrationManager();
+    echo $manager->rollback() . "\n";
+} elseif ($command === 'migrate:make' && $subcommand) {
+    $manager = new MigrationManager();
+    $file = $manager->createMigration($subcommand);
+    echo "Created migration: " . basename($file) . "\n";
+} elseif ($command === 'make:seeder' && $subcommand) {
+    $seederManager = new SeederManager();
+    $file = $seederManager->createSeeder($subcommand);
+    echo "Created seeder: " . basename($file) . "\n";
+} elseif ($command === 'db:seed') {
+    DatabaseConnection::init();
+    $seederManager = new SeederManager();
+    $class = $argv[3] ?? null;
+    if ($class && strpos($class, '--class=') === 0) {
+        $className = str_replace('--class=', '', $class);
+        $seederManager->runSeeder($className);
+    } else {
+        $seederManager->runAll();
+    }
+} else {
+    echo "Usage:\n";
+    echo "  php artisan migrate:make <name>  - Create migration\n";
+    echo "  php artisan migrate              - Run migrations\n";
+    echo "  php artisan migrate:rollback     - Rollback last migration\n";
+    echo "  php artisan make:seeder <name>   - Create seeder\n";
+    echo "  php artisan db:seed              - Run all seeders\n";
+    echo "  php artisan db:seed --class=ClassName - Run specific seeder\n";
+}
+

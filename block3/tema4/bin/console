@@ -1,0 +1,47 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../Config.php';
+require_once __DIR__ . '/../Database/Manager.php';
+require_once __DIR__ . '/../Doctrine/Database.php';
+
+
+$command = $argv[1] ?? null;
+
+if ($command === 'doctrine:migrations:migrate') {
+    $doctrineDb = new DoctrineDatabase();
+    $entityManager = $doctrineDb->init();
+    
+    require_once __DIR__ . '/../Doctrine/Entity/User.php';
+    $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($entityManager);
+    $classes = [
+        $entityManager->getClassMetadata(\App\Entity\User::class),
+    ];
+    
+    try {
+        $schemaTool->createSchema($classes);
+        echo "Doctrine migrations executed.\n";
+    } catch (\Exception $e) {
+        if (strpos($e->getMessage(), 'already exists') !== false) {
+            echo "Doctrine migrations: Table already exists (OK)\n";
+        } else {
+            echo "Doctrine migrations: " . $e->getMessage() . "\n";
+        }
+    }
+} elseif ($command === 'doctrine:fixtures:load') {
+    $doctrineDb = new DoctrineDatabase();
+    $entityManager = $doctrineDb->init();
+    
+    require_once __DIR__ . '/../Doctrine/Entity/User.php';
+    require_once __DIR__ . '/../Doctrine/Fixtures/UserFixtures.php';
+    $fixtures = new \App\Fixtures\UserFixtures();
+    $fixtures->load($entityManager);
+    
+    echo "Doctrine fixtures loaded.\n";
+} else {
+    echo "Usage:\n";
+    echo "  php bin/console doctrine:migrations:migrate  - Run Doctrine migrations\n";
+    echo "  php bin/console doctrine:fixtures:load       - Load Doctrine fixtures\n";
+}
+
