@@ -1,0 +1,7 @@
+{
+    "require": {
+        "predis/predis": "^2.0",
+        "php-amqplib/php-amqplib": "^3.0"
+    }
+}
+
