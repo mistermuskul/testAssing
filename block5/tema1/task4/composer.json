@@ -1,0 +1,22 @@
+{
+    "name": "taskassign/block5-tema1-task4",
+    "description": "Pest installation and first test",
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.0",
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    },
+    "scripts": {
+        "test": "pest"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

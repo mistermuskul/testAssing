@@ -1,0 +1,14 @@
+{
+    "name": "taskassign/block5-tema1-task6",
+    "description": "Mock objects with Mockery",
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}

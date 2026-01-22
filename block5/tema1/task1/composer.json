@@ -1,0 +1,13 @@
+{
+    "name": "taskassign/block5-tema1-task1",
+    "description": "PHPUnit installation and first test",
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}

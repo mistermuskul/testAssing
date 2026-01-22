@@ -1,0 +1,13 @@
+{
+    "name": "taskassign/block5-tema2-task4",
+    "description": "GitHub Actions deployment",
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}

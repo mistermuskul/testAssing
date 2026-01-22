@@ -1,0 +1,13 @@
+{
+    "name": "taskassign/block5-tema1-task3",
+    "description": "Test User methods",
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
