@@ -18,11 +18,7 @@ if ($uri === '/users' && $method === 'GET') {
         return $user->toArray();
     }, $users);
     echo json_encode($result);
-    if (function_exists('fastcgi_finish_request')) {
-        fastcgi_finish_request();
-    } else {
-        exit;
-    }
+    exit;
 }
 
 http_response_code(404);
